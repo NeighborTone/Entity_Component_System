@@ -1,33 +1,82 @@
 #pragma once
 #include "ECS.hpp"
-
+#include <Windows.h>
+#include <iostream>
+struct Pos
+{
+	int
+		x=0, 
+		y=0;
+};
 class PositionConponent : public Component
 {
-private:
-	int 
-		x,
-		y;
 public:
-	int X() { return x; }
-	int Y() { return y; }
-
+	PositionConponent() = default;
+	PositionConponent(int xx, int yy)
+	{
+		pos.x = xx;
+		pos.y = yy;
+	}
+	~PositionConponent() 
+	{
+		std::cout << "PositionConponentDestructor" << std::endl;
+	}
+	Pos pos;
 	void Init() override
 	{
-		x = 0;
-		y = 0;
+		pos.x = 0;
+		pos.y = 0;
 	}
 
 	void UpDate() override
 	{
-		++x;
-		++y;
+		++pos.x;
+		++pos.y;
 	}
-
+	void Draw() override
+	{
+		std::cout << pos.x << std::endl;
+	}
 	void SetPos(int xx, int yy)
 	{
-		x = xx;
-		y = yy;
+		pos.x = xx;
+		pos.y = yy;
+	}
+	void SetPos(Pos& ppos)
+	{
+		pos = ppos;
+	}
+};
+
+class EnableComponent : public Component
+{
+private:
+	bool enable = false;
+public:
+	~EnableComponent()
+	{
+		std::cout << "EnableComponentDestructor" << std::endl;
+	}
+	void ESC_Enable()
+	{
+		if (GetAsyncKeyState(VK_ESCAPE))
+		{
+			enable = true;
+		}
+	}
+	void SPACE_Disable()
+	{
+		if (GetAsyncKeyState(VK_SPACE))
+		{
+			enable = false;
+		}
 	}
 
+	bool IsEnable()
+	{
+		return enable;
+	}
 
+	
 };
+
