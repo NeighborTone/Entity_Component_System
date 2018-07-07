@@ -22,8 +22,8 @@ int main()
 			mane.Draw();
 			you.GetComponent<PositionConponent>().SetPos(me.GetComponent<PositionConponent>().pos);
 
-			me.GetComponent<EnableComponent>().ESC_Enable();
-			if (me.GetComponent<EnableComponent>().IsEnable())
+			me.GetComponent<EnableComponent>().ESCKeyPush_Break();
+			if (me.GetComponent<EnableComponent>().IsBreakEnable())
 			{
 				break;
 			}

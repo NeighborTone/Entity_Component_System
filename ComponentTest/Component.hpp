@@ -57,7 +57,7 @@ public:
 	{
 		std::cout << "EnableComponentDestructor" << std::endl;
 	}
-	void ESC_Enable()
+	void ESCKeyPush_Break()
 	{
 		if (GetAsyncKeyState(VK_ESCAPE))
 		{
@@ -72,11 +72,10 @@ public:
 		}
 	}
 
-	bool IsEnable()
+	bool IsBreakEnable()
 	{
 		return enable;
 	}
 
-	
 };
 
