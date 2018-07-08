@@ -1,5 +1,5 @@
 #pragma once
-#include "ECS.hpp"
+#include "ECS.h"
 #include <Windows.h>
 #include <iostream>
 struct Pos
