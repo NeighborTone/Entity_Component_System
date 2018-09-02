@@ -1,50 +1,51 @@
 #include "Component.hpp"
 #include <memory>
 #define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ ) 
+using namespace ECS;
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	{
 		EntityManager mane;
 
-		//Entity‚Ì¶¬
+		//Entityã®ç”Ÿæˆ
 		auto& me(mane.AddEntity());
 		auto& you(mane.AddEntity());
 		
-		//:(ƒRƒƒ“)‚ğ‚Â‚¯‚é‚ÆŠî’ê‚ÌŒ^‚ğw’è‚Å‚«‚é
+		//:(ã‚³ãƒ­ãƒ³)ã‚’ã¤ã‘ã‚‹ã¨åŸºåº•ã®å‹ã‚’æŒ‡å®šã§ãã‚‹
 		enum GrpupLabels : std::size_t
 		{
 			GROUP_ME,
 			GROUP_YOU
 		};
 
-		me.AddComponent<PositionConponent>(0, 0);		//ˆø”•t‚«ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğŒÄ‚Ô‚Æ‚«‚Í‚±‚¤‚·‚é
+		me.AddComponent<PositionConponent>(0, 0);		//å¼•æ•°ä»˜ãã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å‘¼ã¶ã¨ãã¯ã“ã†ã™ã‚‹
 		me.AddComponent<EnableComponent>();
-		me.AddGroup(GROUP_ME);									//ƒOƒ‹[ƒv‚É“o˜^	
-		auto& m_me(mane.GetGroup(GROUP_ME));			//ƒOƒ‹[ƒv‚ğæ“¾
+		me.AddGroup(GROUP_ME);									//ã‚°ãƒ«ãƒ¼ãƒ—ã«ç™»éŒ²	
+		auto& m_me(mane.GetGroup(GROUP_ME));			//ã‚°ãƒ«ãƒ¼ãƒ—ã‚’å–å¾—
 		you.AddComponent<PositionConponent>(100, 100);
 		you.AddGroup(GROUP_YOU);								
 		auto& m_you(mane.GetGroup(GROUP_YOU));
 
-		//ƒOƒ‹[ƒv•ª‚¯‚·‚é‚±‚Æ‚É‚æ‚Á‚ÄA•`‰æƒŒƒCƒ„[(XVˆ—‚à)‚ğ•ª‚¯‚é‚±‚Æ‚ª‚Å‚«‚é!!
+		//ã‚°ãƒ«ãƒ¼ãƒ—åˆ†ã‘ã™ã‚‹ã“ã¨ã«ã‚ˆã£ã¦ã€æç”»ãƒ¬ã‚¤ãƒ¤ãƒ¼(æ›´æ–°å‡¦ç†ã‚‚)ã‚’åˆ†ã‘ã‚‹ã“ã¨ãŒã§ãã‚‹!!
 		while (true)
 		{
-			//ššššššEntity‚Ì‘S‘Ì‚ÌXVšššššššššššš
+			//â˜…â˜…â˜…â˜…â˜…â˜…Entityã®å…¨ä½“ã®æ›´æ–°â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…
 			mane.UpDate();
 			//mane.Draw();
-			//ššššššššššššššššššššššššššš
-			//ššššššƒOƒ‹[ƒv‚²‚Æ‚ÉXVšššššššššššš
+			//â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…
+			//â˜…â˜…â˜…â˜…â˜…â˜…ã‚°ãƒ«ãƒ¼ãƒ—ã”ã¨ã«æ›´æ–°â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…
 			for (auto& m : m_me)
 			{
-				std::cout << "MEƒOƒ‹[ƒv‚Ì•`‰æ‚Å‚·" << std::endl;
+				std::cout << "MEã‚°ãƒ«ãƒ¼ãƒ—ã®æç”»ã§ã™" << std::endl;
 				m->Draw();
 			}
 			for (auto& y : m_you)
 			{
-				std::cout << "YOUƒOƒ‹[ƒv‚Ì•`‰æ‚Å‚·" << std::endl;
+				std::cout << "YOUã‚°ãƒ«ãƒ¼ãƒ—ã®æç”»ã§ã™" << std::endl;
 				y->Draw();
 			}
-			//ššššššššššššššššššššššššššš
+			//â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…
 
 			me.GetComponent<EnableComponent>().ESCKeyPush_Break();
 			if (me.GetComponent<EnableComponent>().IsBreakEnable())
