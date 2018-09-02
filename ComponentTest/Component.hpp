@@ -2,7 +2,9 @@
 #include "ECS.h"
 #include <Windows.h>
 #include <iostream>
-struct Pos
+namespace ECS
+{
+	struct Pos
 {
 	int
 		x=0, 
@@ -78,4 +80,6 @@ public:
 	}
 
 };
+
+}
 
