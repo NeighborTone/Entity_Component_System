@@ -4,7 +4,7 @@
 #include <iostream>
 namespace ECS
 {
-	struct Pos
+struct Pos
 {
 	int
 		x=0, 
