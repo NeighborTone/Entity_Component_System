@@ -11,7 +11,6 @@
 #include <memory>
 #include <vector>
 #include <assert.h>
-
 namespace ECS
 {
 	class Entity;
@@ -44,8 +43,7 @@ namespace ECS
 	class Component
 	{
 	private:
-		//Entityによって殺されたいのでこうなった
-		friend class Entity;
+		friend class Entity;	//Entityによって殺されたいのでこうなった
 		bool active = true;
 		void DeleteThis()
 		{
@@ -57,10 +55,10 @@ namespace ECS
 		}
 	public:
 		Entity * entity;
-		virtual void Initialize() = 0;
-		virtual void Update() = 0;
+		virtual void Initialize() {};
+		virtual void UpDate() {};
 		virtual void Draw3D() {};
-		virtual void Draw2D() = 0;
+		virtual void Draw2D() {};
 		virtual ~Component() {}
 		//このコンポーネントが生きているか返します
 		virtual bool IsActive() const final { return active; }
@@ -70,12 +68,11 @@ namespace ECS
 	//データはメソッドを持たない
 	struct ComponentData : public Component
 	{
-		void Initialize() override final {}
-		void Update() override final {}
-		void Draw2D() override final {}
+		virtual void UpDate() final {};
+		virtual void Draw3D() final {};
+		virtual void Draw2D() final {};
 	};
 
-	//1つ以上のコンポーネントによって定義されるEntity
 	class Entity final
 	{
 	private:
@@ -98,6 +95,7 @@ namespace ECS
 		}
 		
 	public:
+
 		Entity(EntityManager& manager) : manager_(manager) {}
 		//このEntityについているComponentの初期化処理を行います
 		void Initialize()
@@ -105,7 +103,7 @@ namespace ECS
 			for (auto& c : components) c->Initialize();
 		}
 		//このEntityについているComponentの更新処理を行います
-		void Update()
+		void UpDate()
 		{
 			RefreshComponent();
 			for (auto& c : components)
@@ -114,7 +112,7 @@ namespace ECS
 				{
 					continue;
 				}
-				c->Update();
+				c->UpDate();
 			}
 		}
 		//このEntityについているComponentの3D描画処理を行います
@@ -134,7 +132,7 @@ namespace ECS
 				c->Draw2D();
 			}
 		}
-		//の生存状態を返します
+		//生存状態を返します
 		bool IsActive() const { return active; }
 		//Entityを殺します
 		void Destroy() 
@@ -201,7 +199,7 @@ namespace ECS
 			auto ptr(componentArray[GetComponentTypeID<T>()]);
 			return *static_cast<T*>(ptr);
 		}
-		//タグを返します
+
 		const std::string& GetTag() const
 		{
 			return tag;
@@ -219,7 +217,7 @@ namespace ECS
 		{
 			for (auto& e : entityes) e->Initialize();
 		}
-		void Update()
+		void UpDate()
 		{
 			for (auto& e : entityes)
 			{
@@ -227,7 +225,7 @@ namespace ECS
 				{
 					continue;
 				}
-				e->Update();
+				e->UpDate();
 			}
 		}
 		void Draw3D()
@@ -308,7 +306,7 @@ namespace ECS
 		}
 		//タグを指定しそのEntityを取得する
 		//失敗した場合落ちる
-		Entity& GetEntity(const std::string& tag)
+		[[deprecated]] Entity& GetEntity(const std::string& tag)
 		{
 			constexpr bool  NOT_FOUND_TAG = false;
 			assert(!(tag == ""));
@@ -325,7 +323,8 @@ namespace ECS
 		}
 	};
 
-	class EcsSystem final
+	//シングルトンにしたらどうなるか試したが、全く不要であった
+	class EcsSystem
 	{
 	public:
 		static EntityManager& GetManager()
