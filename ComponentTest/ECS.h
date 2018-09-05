@@ -195,7 +195,11 @@ namespace ECS
 		//登録したコンポーネントを取得します
 		template<typename T> T& GetComponent() const
 		{
-			assert(HasComponent<T>());
+			if (!HasComponent<T>())
+			{
+				std::cout << typeid(T).name() << std::endl;
+				assert(HasComponent<T>());
+			}
 			auto ptr(componentArray[GetComponentTypeID<T>()]);
 			return *static_cast<T*>(ptr);
 		}
