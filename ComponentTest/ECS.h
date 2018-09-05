@@ -93,7 +93,7 @@ namespace ECS
 			}),
 				std::end(components));
 		}
-		
+
 	public:
 
 		Entity(EntityManager& manager) : manager_(manager) {}
@@ -135,9 +135,9 @@ namespace ECS
 		//生存状態を返します
 		bool IsActive() const { return active; }
 		//Entityを殺します
-		void Destroy() 
+		void Destroy()
 		{
-			active = false; 
+			active = false;
 		}
 		//Entityが指定したグループに登録されているか返します
 		bool HasGroup(Group group) const noexcept
@@ -152,7 +152,7 @@ namespace ECS
 			groupBitSet[group] = false;
 		}
 		//Entityに指定したComponentがあるか返します
-		template <typename T> bool HasComponent() const 
+		template <typename T> bool HasComponent() const
 		{
 			return componentBitSet[GetComponentTypeID<T>()];
 		}
@@ -195,11 +195,7 @@ namespace ECS
 		//登録したコンポーネントを取得します
 		template<typename T> T& GetComponent() const
 		{
-			if (!HasComponent<T>())
-			{
-				std::cout << typeid(T).name() << std::endl;
-				assert(HasComponent<T>());
-			}
+			assert(HasComponent<T>());
 			auto ptr(componentArray[GetComponentTypeID<T>()]);
 			return *static_cast<T*>(ptr);
 		}
