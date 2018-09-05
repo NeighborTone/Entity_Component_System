@@ -56,7 +56,7 @@ namespace ECS
 	public:
 		Entity * entity;
 		virtual void Initialize() {};
-		virtual void UpDate() {};
+		virtual void Update() {};
 		virtual void Draw3D() {};
 		virtual void Draw2D() {};
 		virtual ~Component() {}
@@ -68,7 +68,7 @@ namespace ECS
 	//データはメソッドを持たない
 	struct ComponentData : public Component
 	{
-		virtual void UpDate() final {};
+		virtual void Update() final {};
 		virtual void Draw3D() final {};
 		virtual void Draw2D() final {};
 	};
@@ -103,7 +103,7 @@ namespace ECS
 			for (auto& c : components) c->Initialize();
 		}
 		//このEntityについているComponentの更新処理を行います
-		void UpDate()
+		void Update()
 		{
 			RefreshComponent();
 			for (auto& c : components)
@@ -112,7 +112,7 @@ namespace ECS
 				{
 					continue;
 				}
-				c->UpDate();
+				c->Update();
 			}
 		}
 		//このEntityについているComponentの3D描画処理を行います
@@ -221,7 +221,7 @@ namespace ECS
 		{
 			for (auto& e : entityes) e->Initialize();
 		}
-		void UpDate()
+		void Update()
 		{
 			for (auto& e : entityes)
 			{
@@ -229,7 +229,7 @@ namespace ECS
 				{
 					continue;
 				}
-				e->UpDate();
+				e->Update();
 			}
 		}
 		void Draw3D()
