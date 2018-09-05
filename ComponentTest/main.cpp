@@ -12,46 +12,31 @@ int main()
 		auto& me(mane.AddEntity());
 		auto& you(mane.AddEntity());
 		
-		//:(コロン)をつけると基底の型を指定できる
+		
 		enum GrpupLabels : std::size_t
 		{
-			GROUP_ME,
-			GROUP_YOU
+			GROUP_ME = 1u,
+			GROUP_YOU,
+			MAX
 		};
+		//Entityを1つ以上のコンポーネントで要素を作る
+		me.AddComponent<Position>(0.f, 0.f);
+		me.AddComponent<Move>();
+		me.AddGroup(GROUP_ME);
 
-		me.AddComponent<PositionConponent>(0, 0);		//引数付きコンストラクタを呼ぶときはこうする
-		me.AddComponent<EnableComponent>();
-		me.AddGroup(GROUP_ME);									//グループに登録	
-		auto& m_me(mane.GetGroup(GROUP_ME));			//グループを取得
-		you.AddComponent<PositionConponent>(100, 100);
-		you.AddGroup(GROUP_YOU);								
-		auto& m_you(mane.GetGroup(GROUP_YOU));
-
+		you.AddComponent<Position>(1000.f, 0.f);
+		you.AddComponent<Move>();
+		you.AddGroup(GROUP_YOU);
 		//グループ分けすることによって、描画レイヤー(更新処理も)を分けることができる!!
 		while (true)
 		{
 			//★★★★★★Entityの全体の更新★★★★★★★★★★★★
-			mane.UpDate();
-			//mane.Draw();
-			//★★★★★★★★★★★★★★★★★★★★★★★★★★★
+			mane.Update();
+			
 			//★★★★★★グループごとに更新★★★★★★★★★★★★
-			for (auto& m : m_me)
-			{
-				std::cout << "MEグループの描画です" << std::endl;
-				m->Draw();
-			}
-			for (auto& y : m_you)
-			{
-				std::cout << "YOUグループの描画です" << std::endl;
-				y->Draw();
-			}
+			mane.OrderByDraw(MAX);
 			//★★★★★★★★★★★★★★★★★★★★★★★★★★★
 
-			me.GetComponent<EnableComponent>().ESCKeyPush_Break();
-			if (me.GetComponent<EnableComponent>().IsBreakEnable())
-			{
-				break;
-			}
 		}
 	}
 	system("pause");

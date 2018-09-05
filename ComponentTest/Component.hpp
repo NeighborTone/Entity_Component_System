@@ -4,82 +4,36 @@
 #include <iostream>
 namespace ECS
 {
-struct Pos
-{
-	int
-		x=0, 
-		y=0;
-};
-class PositionConponent : public Component
-{
-public:
-	PositionConponent() = default;
-	PositionConponent(int xx, int yy)
+	struct Position : public ComponentData
 	{
-		pos.x = xx;
-		pos.y = yy;
-	}
-	~PositionConponent() 
-	{
-		std::cout << "PositionConponentDestructor" << std::endl;
-	}
-	Pos pos;
-	void Init() override
-	{
-		pos.x = 0;
-		pos.y = 0;
-	}
+		Position() = default;
+		Position(float xx, float yy) :x(xx), y(yy) {}
+		float x, y;
+	};
 
-	void UpDate() override
+	//‹¤’Ê‚Ìƒf[ƒ^‚É‘Î‚·‚éˆ—
+	class Move : public Component
 	{
-		++pos.x;
-		++pos.y;
-	}
-	void Draw() override
-	{
-		std::cout << pos.x << std::endl;
-	}
-	void SetPos(int xx, int yy)
-	{
-		pos.x = xx;
-		pos.y = yy;
-	}
-	void SetPos(Pos& ppos)
-	{
-		pos = ppos;
-	}
-};
-
-class EnableComponent : public Component
-{
-private:
-	bool enable = false;
-public:
-	~EnableComponent()
-	{
-		std::cout << "EnableComponentDestructor" << std::endl;
-	}
-	void ESCKeyPush_Break()
-	{
-		if (GetAsyncKeyState(VK_ESCAPE))
+	private:
+		Position* pos = nullptr;
+	public:
+		//AddComponentŽž‚ÉŒÄ‚Î‚ê‚é
+		virtual void Initialize() override
 		{
-			enable = true;
+			if (entity->HasComponent<Position>())
+			{
+				pos = &entity->GetComponent<Position>();
+			}
 		}
-	}
-	void SPACE_Disable()
-	{
-		if (GetAsyncKeyState(VK_SPACE))
+		virtual void Update() override
 		{
-			enable = false;
+			++pos->x;
 		}
-	}
-
-	bool IsBreakEnable()
-	{
-		return enable;
-	}
-
-};
+		virtual void Draw2D() override
+		{
+			std::cout << "Xposition : " << pos->x << std::endl;
+		}
+	};
 
 }
 
