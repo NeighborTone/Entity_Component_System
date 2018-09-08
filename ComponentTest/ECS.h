@@ -1,4 +1,4 @@
-/**
+﻿/**
 * @file ECS.hpp
 * @brief EntityComponentSystemの実態です。
 * @author tonarinohito

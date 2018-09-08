@@ -1,4 +1,4 @@
-#include "Component.hpp"
+﻿#include "Component.hpp"
 #include <memory>
 #define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ ) 
 using namespace ECS;
@@ -13,7 +13,7 @@ int main()
 		auto& you(mane.AddEntity());
 		
 		
-		enum GrpupLabels : std::size_t
+		enum GroupLayer : std::size_t
 		{
 			GROUP_ME = 1u,
 			GROUP_YOU,
@@ -31,6 +31,7 @@ int main()
 		while (true)
 		{
 			//★★★★★★Entityの全体の更新★★★★★★★★★★★★
+			mane.Refresh();
 			mane.Update();
 			
 			//★★★★★★グループごとに更新★★★★★★★★★★★★
